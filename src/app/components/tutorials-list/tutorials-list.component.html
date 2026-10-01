@@ -1,63 +1,84 @@
-<div class="list row">
-  <div class="col-md-8">
-    <div class="input-group mb-3">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Search by title"
-        [(ngModel)]="title"
-      />
-      <div class="input-group-append">
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="searchTitle()"
-        >
-          Search
-        </button>
-      </div>
+<section class="tutorial-page" aria-labelledby="tutorial-grid-title">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow">WORKSPACE</p>
+      <h1 id="tutorial-grid-title">Tutorials</h1>
+      <p class="page-description">View and manage your tutorial records.</p>
     </div>
-  </div>
-  <div class="col-md-6">
-    <h4>Tutorials List</h4>
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let tutorial of tutorials; let i = index"
-        [class.active]="i == currentIndex"
-        (click)="setActiveTutorial(tutorial, i)"
-      >
-        {{ tutorial.title }}
-      </li>
-    </ul>
-
-    <button class="m-3 btn btn-sm btn-danger" (click)="removeAllTutorials()">
-      Remove All
+    <button type="button" class="add-button" (click)="startAdd()">
+      <span aria-hidden="true">+</span> Add tutorial
     </button>
   </div>
-  <div class="col-md-6">
-    <div *ngIf="currentTutorial.id">
-      <h4>Tutorial</h4>
-      <div>
-        <label><strong>Title:</strong></label> {{ currentTutorial.title }}
-      </div>
-      <div>
-        <label><strong>Description:</strong></label>
-        {{ currentTutorial.description }}
-      </div>
-      <div>
-        <label><strong>Status:</strong></label>
-        {{ currentTutorial.published ? "Published" : "Pending" }}
-      </div>
 
-      <a class="badge badge-warning" routerLink="/tutorials/{{ currentTutorial.id }}">
-        Edit
-      </a>
+  <div class="grid-card">
+    <div class="grid-toolbar">
+      <div>
+        <h2>Tutorial records</h2>
+        <p>{{ filteredTutorials.length }} {{ filteredTutorials.length === 1 ? 'record' : 'records' }}</p>
+      </div>
+      <label class="grid-search">
+        <span class="search-icon" aria-hidden="true">&#128269;</span>
+        <span class="visually-hidden">Search tutorials</span>
+        <input type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearchChange()" placeholder="Search tutorials..." autocomplete="off" />
+      </label>
     </div>
 
-    <div *ngIf="!currentTutorial">
-      <br />
-      <p>Please click on a Tutorial...</p>
+    <p class="grid-error" *ngIf="saveError">{{ saveError }}</p>
+
+    <div class="table-scroll" *ngIf="filteredTutorials.length || addingTutorial; else emptyState">
+      <table class="tutorial-table">
+        <thead>
+          <tr>
+            <th scope="col" [attr.aria-sort]="ariaSort('id')"><button type="button" class="sort-button" (click)="sortBy('id')">ID <span>{{ sortIndicator('id') }}</span></button></th>
+            <th scope="col" [attr.aria-sort]="ariaSort('title')"><button type="button" class="sort-button" (click)="sortBy('title')">Title <span>{{ sortIndicator('title') }}</span></button></th>
+            <th scope="col" [attr.aria-sort]="ariaSort('description')"><button type="button" class="sort-button" (click)="sortBy('description')">Description <span>{{ sortIndicator('description') }}</span></button></th>
+            <th scope="col" [attr.aria-sort]="ariaSort('published')"><button type="button" class="sort-button" (click)="sortBy('published')">Status <span>{{ sortIndicator('published') }}</span></button></th>
+            <th scope="col" class="actions-heading">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="edit-row" *ngIf="addingTutorial">
+            <td class="id-cell" data-label="ID">New</td>
+            <td data-label="Title"><input class="grid-input" type="text" [(ngModel)]="addDraft.title" placeholder="Tutorial title" aria-label="Tutorial title" /></td>
+            <td data-label="Description"><input class="grid-input" type="text" [(ngModel)]="addDraft.description" placeholder="Description" aria-label="Tutorial description" /></td>
+            <td data-label="Status"><select class="grid-select" [(ngModel)]="addDraft.published" aria-label="Tutorial status"><option [ngValue]="false">Pending</option><option [ngValue]="true">Published</option></select></td>
+            <td class="row-actions" data-label="Actions"><button type="button" class="save-action" (click)="createTutorial()">Save</button><button type="button" class="cancel-action" (click)="cancelAdd()">Cancel</button></td>
+          </tr>
+          <tr *ngFor="let tutorial of pagedTutorials">
+            <td class="id-cell" data-label="ID">{{ tutorial.id }}</td>
+            <td class="title-cell" data-label="Title"><input *ngIf="isEditing(tutorial)" class="grid-input" type="text" [(ngModel)]="editDraft.title" aria-label="Tutorial title" /><ng-container *ngIf="!isEditing(tutorial)">{{ tutorial.title || 'Untitled' }}</ng-container></td>
+            <td class="description-cell" data-label="Description"><input *ngIf="isEditing(tutorial)" class="grid-input" type="text" [(ngModel)]="editDraft.description" aria-label="Tutorial description" /><ng-container *ngIf="!isEditing(tutorial)">{{ tutorial.description || '—' }}</ng-container></td>
+            <td data-label="Status">
+              <select *ngIf="isEditing(tutorial)" class="grid-select" [(ngModel)]="editDraft.published" aria-label="Tutorial status"><option [ngValue]="false">Pending</option><option [ngValue]="true">Published</option></select>
+              <span *ngIf="!isEditing(tutorial)" class="status-pill" [class.published]="tutorial.published"><span class="status-dot" aria-hidden="true"></span>{{ tutorial.published ? 'Published' : 'Pending' }}</span>
+            </td>
+            <td class="row-actions" data-label="Actions">
+              <button *ngIf="!isEditing(tutorial)" type="button" class="edit-action" (click)="startEdit(tutorial)">Edit</button>
+              <button *ngIf="isEditing(tutorial)" type="button" class="save-action" (click)="saveEdit()">Save</button>
+              <button *ngIf="isEditing(tutorial)" type="button" class="cancel-action" (click)="cancelEdit()">Cancel</button>
+              <button *ngIf="!isEditing(tutorial)" type="button" class="delete-action" (click)="removeTutorial(tutorial)" [attr.aria-label]="'Delete ' + tutorial.title">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <div class="pagination" *ngIf="filteredTutorials.length">
+      <p>Showing {{ firstRecord }}-{{ lastRecord }} of {{ filteredTutorials.length }} records</p>
+      <nav aria-label="Tutorial grid pages">
+        <button type="button" class="page-button" (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" aria-label="Previous page">Previous</button>
+        <button *ngFor="let page of pageNumbers" type="button" class="page-button" [class.active]="page === currentPage" [attr.aria-current]="page === currentPage ? 'page' : null" (click)="goToPage(page)">{{ page }}</button>
+        <button type="button" class="page-button" (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages" aria-label="Next page">Next</button>
+      </nav>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="empty-icon" aria-hidden="true">&#9636;</div>
+        <h3>{{ searchTerm ? 'No matching tutorials' : 'No tutorials yet' }}</h3>
+        <p>{{ searchTerm ? 'Try another search term.' : 'Add a tutorial to see it in this grid.' }}</p>
+        <button *ngIf="!searchTerm" type="button" class="add-button" (click)="startAdd()">Add your first tutorial</button>
+      </div>
+    </ng-template>
   </div>
-</div>
+</section>

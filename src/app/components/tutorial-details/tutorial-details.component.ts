@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TutorialService } from 'src/app/services/tutorial.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Tutorial } from 'src/app/models/tutorial.model';
 
 @Component({
   selector: 'app-tutorial-details',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './tutorial-details.component.html',
   styleUrls: ['./tutorial-details.component.css']
 })

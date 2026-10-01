@@ -1,13 +1,16 @@
 <div>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
-    <a href="#" class="navbar-brand">bezKoder</a>
-    <div class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a routerLink="tutorials" class="nav-link">Tutorials</a>
-      </li>
-      <li class="nav-item">
-        <a routerLink="add" class="nav-link">Add</a>
-      </li>
+  <nav class="navbar" aria-label="Main navigation">
+    <a routerLink="/tutorials" class="navbar-brand brand-lockup">
+      <svg class="brand-logo" viewBox="0 0 48 48" role="img" aria-label="Testing Application logo">
+        <rect x="2" y="2" width="44" height="44" rx="13" fill="#ffffff" />
+        <path d="M15 15h18M15 23h8M15 31h7" fill="none" stroke="#1764d8" stroke-width="3" stroke-linecap="round" />
+        <path d="m27 29 3 3 6-7" fill="none" stroke="#20a76b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <span>Testing Application for Migration</span>
+    </a>
+    <div class="navbar-nav">
+      <a routerLink="/tutorials" routerLinkActive="active" class="nav-link">Browse</a>
+      <a routerLink="/add" routerLinkActive="active" class="nav-link">Add tutorial</a>
     </div>
   </nav>
 

@@ -1,6 +1,6 @@
-# Angular 12 CRUD application example with Web API
+# Angular 22 CRUD application with JSON file API
 
-Build an Angular 12 CRUD Application to consume Web APIs, display, modify & search data.
+This Angular 22 CRUD application displays, edits, searches, and deletes tutorials using a local JSON file API.
 
 Tutorial Application in that:
 - Each Tutorial has id, title, description, published status.
@@ -62,6 +62,12 @@ Integration (run back-end & front-end on same server/port)
 ## Development server
 
 Run `ng serve --port 8081` for a dev server. Navigate to `http://localhost:8081/`. The app will automatically reload if you change any of the source files.
+
+## JSON file API
+
+Use Node.js 24.21.0 (the version in `.nvmrc`; Angular 22 supports Node.js 22.22.3+, 24.15+, or 26+). Install packages with `npm install`.
+
+Start the API in one terminal with `npm run start:server`; it listens at `http://localhost:8080/api/tutorials` and stores tutorial data in `db.json`. Start Angular in another terminal with `npm start -- --port 8082`, then open `http://localhost:8082/`.
 
 ## Code scaffolding
 

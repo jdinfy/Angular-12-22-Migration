@@ -24,7 +24,16 @@
         />
       </div>
 
+      <div class="form-group">
+        <label for="published">Status</label>
+        <select class="form-control" id="published" [(ngModel)]="tutorial.published" name="published">
+          <option [ngValue]="false">Pending</option>
+          <option [ngValue]="true">Published</option>
+        </select>
+      </div>
+
       <button (click)="saveTutorial()" class="btn btn-success">Submit</button>
+      <p *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</p>
     </div>
 
     <div *ngIf="submitted">

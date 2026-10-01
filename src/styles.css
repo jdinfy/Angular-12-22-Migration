@@ -1,1 +1,356 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --brand-blue: #1764d8;
+  --brand-blue-dark: #104cae;
+  --brand-blue-light: #eaf2ff;
+}
+
+body {
+  margin: 0;
+  background: #f4f7fb;
+  color: #1f2937;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  padding: 0 max(24px, calc((100vw - 1100px) / 2));
+  background: linear-gradient(115deg, var(--brand-blue-dark), var(--brand-blue));
+  box-shadow: 0 3px 12px rgb(16 76 174 / 20%);
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 11px;
+  margin-right: auto;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 7px;
+  color: #eaf2ff;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: rgb(255 255 255 / 16%);
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.container {
+  width: min(100% - 40px, 1100px);
+  margin: 32px auto;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 22px;
+  max-width: none;
+  text-align: left;
+}
+
+.list > .col-md-8 {
+  grid-column: 1 / -1;
+}
+
+.list > .col-md-6 {
+  min-width: 0;
+}
+
+.list > div,
+.edit-form,
+.form-card {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgb(15 23 42 / 5%);
+}
+
+h4 {
+  margin: 0 0 16px;
+  font-size: 1.2rem;
+}
+
+.input-group {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f2937;
+}
+
+.input-group .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-group-append .btn {
+  height: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.list-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-group-item {
+  padding: 11px 13px;
+  border: 1px solid #e2e8f0;
+  border-bottom: 0;
+  background: #fff;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.list-group-item:first-child {
+  border-radius: 6px 6px 0 0;
+}
+
+.list-group-item:last-child {
+  border-bottom: 1px solid #e2e8f0;
+  border-radius: 0 0 6px 6px;
+}
+
+.list-group-item:only-child {
+  border-radius: 6px;
+}
+
+.list-group-item:hover {
+  background: #eff6ff;
+}
+
+.list-group-item.active {
+  border-color: var(--brand-blue);
+  background: var(--brand-blue);
+  color: #fff;
+}
+
+.btn,
+.badge {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.btn-primary,
+.badge-primary {
+  background: var(--brand-blue);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.badge-primary:hover {
+  background: var(--brand-blue-dark);
+}
+
+.btn-danger,
+.badge-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.btn-success,
+.badge-success {
+  background: #15803d;
+  color: #fff;
+}
+
+.btn-outline-secondary {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid #8bb8ff;
+  outline-offset: 2px;
+}
+
+.badge-warning {
+  background: #f59e0b;
+  color: #111827;
+}
+
+.m-3 {
+  margin: 16px 0 0;
+}
+
+.mr-2 {
+  margin-right: 8px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mt-3 {
+  margin-top: 24px;
+}
+
+.mb-3 {
+  margin-bottom: 16px;
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .container {
+    width: min(100% - 36px, 820px);
+    margin: 26px auto;
+  }
+
+  .list {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    min-height: 58px;
+    padding: 0 14px;
+  }
+
+  .navbar-brand {
+    font-size: 0.95rem;
+  }
+
+  .brand-lockup {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .navbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3px;
+    padding-top: 9px;
+    padding-bottom: 8px;
+  }
+
+  .navbar-nav {
+    justify-content: flex-end;
+    gap: 2px;
+  }
+
+  .nav-link {
+    padding: 9px 10px;
+    font-size: 0.92rem;
+  }
+
+  .container {
+    width: calc(100% - 24px);
+    margin: 18px auto;
+  }
+
+  .list {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .list > .col-md-8 {
+    grid-column: auto;
+  }
+
+  .list > div,
+  .edit-form,
+  .form-card {
+    padding: 16px;
+  }
+
+  .input-group .btn {
+    padding: 8px 10px;
+  }
+
+  .btn,
+  .badge {
+    min-height: 40px;
+  }
+
+  .edit-form,
+  .submit-form {
+    width: 100%;
+    max-width: none;
+  }
+}
